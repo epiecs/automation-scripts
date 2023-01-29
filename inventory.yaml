@@ -1,0 +1,38 @@
+r1:
+  hostname: 10.0.100.11
+  groups:
+    - routers
+r2:
+  hostname: 10.0.100.12
+  groups:
+    - routers
+sw-core-1:
+  hostname: 10.0.90.251
+  groups:
+    - switches
+    - core-switches
+sw-core-2:
+  hostname: 10.0.90.252
+  groups:
+    - switches
+    - core-switches
+sw-acc-1:
+  hostname: 10.0.90.11
+  groups:
+    - switches
+    - access-switches
+sw-acc-2:
+  hostname: 10.0.90.12
+  groups:
+    - switches
+    - access-switches
+sw-acc-3:
+  hostname: 10.0.90.13
+  groups:
+    - switches
+    - access-switches
+sw-acc-4:
+  hostname: 10.0.90.14
+  groups:
+    - switches
+    - access-switches

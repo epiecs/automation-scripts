@@ -1,0 +1,219 @@
+version 15.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no logging console
+enable password 7 153308180D641D253C36
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+no ip icmp rate-limit unreachable
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name lab.local
+ip cef
+login block-for 120 attempts 3 within 60
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username admin secret 9 $9$L9huPxWDzyDOG9$nRENxWiBTZnK8/PWzyUqBTbqoYvPX3CS0jjqdwiZaK2
+!
+redundancy
+!
+no cdp log mismatch duplex
+!
+ip tcp synwait-time 5
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.0.100.11 255.255.255.255
+ ip ospf 1 area 0
+!
+interface GigabitEthernet0/0
+ ip address 192.168.122.251 255.255.255.0
+ ip nat outside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 172.16.0.1 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+ ip ospf network point-to-point
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 172.16.0.5 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+ ip ospf network point-to-point
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ ip address 172.16.0.9 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+ ip ospf network point-to-point
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/4
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/5
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/6
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/7
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 1
+ router-id 10.0.0.11
+ auto-cost reference-bandwidth 1000000
+ passive-interface default
+ no passive-interface GigabitEthernet0/0
+ no passive-interface GigabitEthernet0/1
+ no passive-interface GigabitEthernet0/2
+ no passive-interface GigabitEthernet0/3
+ network 172.16.0.0 0.0.0.255 area 0
+ default-information originate
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip nat inside source list LAN_ALLOW_PAT interface GigabitEthernet0/0 overload
+ip route 0.0.0.0 0.0.0.0 GigabitEthernet0/0 192.168.122.1
+ip ssh version 2
+!
+ip access-list standard LAN_ALLOW_PAT
+ permit 10.0.0.0 0.0.255.255
+ permit 172.16.0.0 0.0.0.255
+!
+!
+ipv6 ioam timestamp
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner motd ^CC
+----------------------------------
+- no unauthorized access allowed -
+----------------------------------
+^C
+!
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line aux 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line vty 0 4
+ exec-timeout 0 0
+ logging synchronous
+ login local
+ transport input ssh
+line vty 5 15
+ exec-timeout 0 0
+ logging synchronous
+ login local
+ transport input ssh
+!
+no scheduler allocate
+ntp server 45.87.78.35
+!
+end

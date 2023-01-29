@@ -1,0 +1,16 @@
+# Rommel OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Python bestanden
+__pycache__/
+.venv
+
+# Security risks
+.env
+session.log
