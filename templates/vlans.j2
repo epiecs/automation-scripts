@@ -1,0 +1,14 @@
+{% if "switches" in groups %}
+vlan 10
+name VLAN_IT
+exit
+vlan 20
+name VLAN_CORP
+exit
+vlan 90
+name VLAN_MGMT
+exit
+vlan 99
+name VLAN_NATIVE
+exit
+{% endif %}

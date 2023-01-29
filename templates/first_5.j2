@@ -1,0 +1,5 @@
+no logging console
+service password-encryption
+no ip http server
+ntp server {{ ntp_server | default("45.87.78.35")}}
+login block-for 120 attempts 3 within 60

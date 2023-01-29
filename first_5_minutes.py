@@ -23,8 +23,11 @@ for hostname, config in inventory.items():
 
     connection.enable()
 
+    connection.config_mode()
+    result = connection.send_command(f"hostname {hostname.upper()}", expect_string=r"#")
+    connection.find_prompt()
+
     commands = [
-        f"hostname {hostname.upper()}",              # set uppercase hostname
         "no logging console",                        # disable console logging
         "service password-encryption",               # encrypt passwords
         "no ip http server",                         # disable http server
@@ -32,7 +35,7 @@ for hostname, config in inventory.items():
         "#login block-for 120 attempts 3 within 60"  # block 120s if 3 failed logins in 60s
     ]
 
-    result = connection.send_config_set(commands)
+    result += connection.send_config_set(commands)
     
     banner = """
         banner motd ~\n
